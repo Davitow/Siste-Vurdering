@@ -87,6 +87,26 @@ app.get("/logout", (req, res) => {
   });
 });
 
+// 📌 Håndter sletting av konto
+app.post("/delete-account", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/");
+  }
+
+  const userId = req.session.user.id;
+
+  db.run("DELETE FROM users WHERE id = ?", [userId], (err) => {
+    if (err) {
+      console.error("Feil ved sletting av konto:", err.message);
+      return res.send("Feil ved sletting av konto.");
+    }
+
+    req.session.destroy(() => {
+      res.redirect("/");
+    });
+  });
+});
+
 // Start serveren
 app.listen(PORT, () => {
   console.log(`Server kjører på http://localhost:${PORT}`);
