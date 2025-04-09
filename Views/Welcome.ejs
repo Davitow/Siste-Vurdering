@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Public/vurdering.css">
+    <title>Velkommen</title>
+</head>
+<body>
+    <h2>Velkommen, <%= username %>!</h2>
+    
+    <a href='/logout'>Logg ut</a> <br><br>
+
+    <form action="/delete-account" method="POST">
+        <button type="submit" onclick="return confirm('Er du sikker på at du vil slette kontoen din? Du må logge inn for å bekrefte.')">
+            Slett konto
+        </button>
+    </form>
+</body>
+</html>

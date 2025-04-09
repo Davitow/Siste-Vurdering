@@ -72,8 +72,8 @@ app.post("/login", (req, res) => {
     const match = await bcrypt.compare(password, user.password);
 
     if (match) {
-      req.session.user = user;
-      res.send(`<h2>Velkommen, ${username}!</h2><a href='/logout'>Logg ut</a>`);
+      req.session.user = { id: user.id, username: user.username };
+      res.render("welcome", { username: user.username }); // Endret til EJS-malen
     } else {
       res.render("login", { message: "Feil passord!" });
     }
@@ -90,19 +90,50 @@ app.get("/logout", (req, res) => {
 // 📌 Håndter sletting av konto
 app.post("/delete-account", (req, res) => {
   if (!req.session.user) {
+    return res.redirect("/"); // Brukeren må logge inn
+  }
+
+  res.send(`
+    <h2>Bekreft sletting av konto</h2>
+    <form action="/confirm-delete" method="POST">
+        <input type="password" name="password" placeholder="Skriv inn passordet ditt" required>
+        <button type="submit">Bekreft sletting</button>
+    </form>
+    <br>
+    <a href="/">Avbryt</a>
+  `);
+});
+
+app.post("/confirm-delete", (req, res) => {
+  if (!req.session.user) {
     return res.redirect("/");
   }
 
   const userId = req.session.user.id;
+  const { password } = req.body;
 
-  db.run("DELETE FROM users WHERE id = ?", [userId], (err) => {
-    if (err) {
-      console.error("Feil ved sletting av konto:", err.message);
-      return res.send("Feil ved sletting av konto.");
+  // Hent bruker fra databasen
+  db.get("SELECT * FROM users WHERE id = ?", [userId], async (err, user) => {
+    if (err || !user) {
+      return res.send("Feil ved henting av bruker.");
     }
 
-    req.session.destroy(() => {
-      res.redirect("/");
+    // Sjekk om passordet er korrekt
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return res.send("Feil passord! Kontoen ble ikke slettet.");
+    }
+
+    // Slett brukeren fra databasen
+    db.run("DELETE FROM users WHERE id = ?", [userId], (err) => {
+      if (err) {
+        console.error("Feil ved sletting av konto:", err.message);
+        return res.send("Feil ved sletting av konto.");
+      }
+
+      req.session.destroy(() => {
+        res.send("<h2>Kontoen din er slettet.</h2><a href='/'>Gå til forsiden</a>");
+      });
     });
   });
 });
