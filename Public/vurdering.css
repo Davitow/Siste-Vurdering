@@ -54,6 +54,10 @@
     margin-top: 1%;
   }
 
+  .tilbake {
+    float: right
+  }
+
   .dinKonto {
     float: right;
   }
@@ -137,4 +141,38 @@
   #result {
     font-weight: bold;
     margin-top: 20px;
+  }
+
+  .innlegg {
+    margin-left: 3%;
+    margin-bottom:5%;
+  }
+
+  .post {
+    margin-left: 3%;
+    margin-bottom: 5%;
+  }
+
+  .undertekst {
+    margin-left:3%
+  }
+  
+  /*Grid for hver av bildene brukt i fotoserie prosjekt*/
+  .grid-container {
+    margin-top: 3%;
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto auto auto;
+    gap: 2%;
+    background-color: rgb(243, 231, 255);
+    padding-left: 1%;
+    max-width: 100%;
+  }
+
+  .grid-container > div {
+    background-color:rgb(222, 198, 247);
+    text-align: center;
+    padding:3% 0;
+    font-size: 150%;
+    position:relative
   }

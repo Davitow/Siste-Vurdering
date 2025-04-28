@@ -12,14 +12,14 @@
     </div>
     
     <div class = "topnav">
-       <a href="/Avfall-bærekraft.html" target="_blank">Tverrfaglig prosjekt Avfall</a>
-       <a href="/Fotohistorie-Skrekk.mp4" target="_blank">Fotoserie skrekk</a>
-       <a href="/Interaktiv Historie.html" target="_blank">Interaktiv historie</a>
+       <a href="/Avfall-bærekraft.html">Tverrfaglig prosjekt Avfall</a>
+       <a href="/Fotoserie-skrekk.html">Fotoserie skrekk</a>
+       <a href="/Interaktiv Historie.html">Interaktiv historie</a>
        <a href="/posts">Innlegg</a>
        
        <div class="dinKonto">
          <div class="dropdown">
-           <a href="#" class="dropdownbtn">Din konto</a>
+           <a href="#" class="dropdownbtn">Din konto:</a>
            <div class="dropdown-content">
              <a href="/logout">Logg ut</a>
              <form action="/delete-account" method="POST" onsubmit="return confirm('Er du sikker på at du vil slette kontoen din? Du må logge inn for å bekrefte.')">
@@ -31,35 +31,8 @@
     </div>
 
     <div class="Overskrift">
-      <h1>Om Prosjektene</h1>
+      
     </div>
 
-    <h2>Kommentar</h2>
-
-    <form action="/posts" method="POST">
-      <input type="text" name="title" placeholder="Tittel på innlegget" required><br>
-      <textarea name="content" placeholder="Hva vil du dele?" required></textarea><br>
-      <button type="submit">Publiser innlegg</button>
-    </form>
-
-    <h2>Alle Kommentarer:</h2>
-    <% posts.forEach(post => { %>
-      <div class="post">
-          <h3><%= post.title %> (av <%= post.username %>)</h3>
-          <p><%= post.content %></p>
-          <small>Publisert: <%= post.created_at %></small>
-
-          <form action="/comments/<%= post.id %>" method="POST">
-              <input type="text" name="comment" placeholder="Skriv en kommentar" required>
-              <button type="submit">Kommenter</button>
-          </form>
-
-          <h4>Kommentarer:</h4>
-          <% post.comments.forEach(comment => { %>
-              <p><strong><%= comment.username %>:</strong> <%= comment.comment %></p>
-          <% }) %>
-      </div>
-      <hr>
-    <% }) %>
 </body>
 </html>

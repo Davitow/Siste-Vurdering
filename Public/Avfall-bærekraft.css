@@ -48,6 +48,10 @@
     text-align: center;
   }
 
+  .tilbake {
+    float: right
+  }
+
   .column {
     padding-top: 2%;
     padding-left: 10%;
@@ -108,4 +112,8 @@
   #result {
     font-weight: bold;
     margin-top: 20px;
+  }
+
+  .tilbake {
+    float: right
   }

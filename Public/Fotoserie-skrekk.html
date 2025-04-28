@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <link rel="stylesheet" href="/vurdering.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+ <!--Dette er en kommentar-->
+
+  <div>
+     <div class="header">
+       <h1>David Enyinnaya</h1>
+     </div>
+  
+     <!--Navigation bar-->  
+     <div class = "topnav">
+      <a href="/Avfall-bærekraft.html">Tverrfaglig prosjekt Avfall</a>
+      <a href="/Fotoserie-skrekk.html">Fotoserie skrekk</a>
+      <a href="/Interaktiv Historie.html">Interaktiv historie</a>
+      <a href="/posts">Innlegg</a>
+    
+     <div class="dinKonto">
+       <div class="dropdown">
+         <a href="#" class="dropdownbtn">Din konto:</a>
+        
+         <div class="dropdown-content">
+            <a href="/logout">Logg ut</a>
+            <form action="/delete-account" method="POST" onsubmit="return confirm('Er du sikker på at du vil slette kontoen din? Du må logge inn for å bekrefte.')">
+             <button type="submit">Slett konto</button>
+            </form>
+         </div>
+        </div>
+      </div>
+
+      <div class="tilbake">
+          <a href="/Welcome">Tilbake til Forside</a>
+      </div>
+     </div>
+   </div>
+
+  <div class="grid-container"> <!--Grid container til fotoserie bilder -->
+     <div>
+       <img src="/Bilder/Scene 1.jpg"> <!-- Scene 1 bilde -->
+        <p>Scene - 1</p>
+     </div>
+   
+     <div>
+      <img src="/Bilder/Scene 2 - Shot 1.jpg"> <!-- Scene 2 bilde -->
+       <p>Scene - 2</p>
+     </div>
+  
+     <div>
+       <img src="/Bilder/Scene 3 - Shot 1.jpg"> <!-- Scene 3 bilde -->
+       <p>Scene - 3</p>
+     </div>  
+  
+     <div>
+      <img src="/Bilder/Scene 4 - Shot 1.jpg"> <!-- Scene 4 bilde -->
+       <p>Scene - 4</p>
+     </div>
+  
+     <div>
+      <img src="/Bilder/Scene 5 - Shot 1.jpg"> <!-- Scene 5 bilde -->
+       <p>Scene - 5</p>
+     </div>
+  
+     <div>
+      <img src="/Bilder/Scene 6 - Shot 4.jpg"> <!-- Scene 6 bilde -->
+       <p>Scene - 6</p>
+     </div>
+   </div>
+
+  <h2>Fotoserie full video:</h2> <!-- Full video av fotoserie -->
+
+   <video width="400" controls>
+      <source src="/Video/Fotohistorie-Skrekk.mp4" type="video/mp4">
+   </video>
+</body>
+</html>
