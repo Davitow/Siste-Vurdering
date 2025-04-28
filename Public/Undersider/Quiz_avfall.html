@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="no"> <!--Setter språket på nettsiden til norsk-->
+ <head>
+    <link rel="stylesheet" href="/Avfall-bærekraft.css"> <!--Lenker css fil-->
+    <script src="/Undersider/JS/Quiz_avfall.js"></script>
+    <meta charset="utf-8"> <!--Gjør norske bokstaver tilgjenelige f.eks Æ,Ø,Å-->
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Kontrollerer hvordan nettsiden vises på forskjellige enheter-->
+ </head>
+
+<body>
+    <div>
+        <div class="header">
+          <h1>Avfall</h1> <!--Overskrift på nettsiden-->
+          <p>Informasjon hentet i samarbeid med Jakub Tocicki, Gaute Dommarsnes og David Enyinnaya</p>
+        </div>
+ 
+        <!-- Navigation bar -->
+      <div class="topnav">
+        <a href="/Avfall-bærekraft.html">Om prosjekt</a>
+        <a href="/Undersider/Avfallet ditt.html">Ditt avfall</a>
+        <a href="/Undersider/Data_avfall og bærekraft.html">Data</a>
+        <a href="/Undersider/Data-møsnter_Avfall.html">Mønster i data</a>
+        <a href="/Undersider/Quiz_avfall.html">Avfall quiz</a>
+      </div>
+    </div>
+    
+    <div class="Overskrift">
+     <h1>Quiz: Test kunnskapen din!</h1>
+    </div>
+    
+    <form id="quizForm">
+      <div class="question">
+        <p>1. Hvilken av disse tre sorteres ikke som papp og papir?</p>
+        <input type="radio" id="q1a" name="q1" value="A"> A. Konvolutter<br>
+        <input type="radio" id="q1b" name="q1" value="B"> B. Eggekartong<br>
+        <input type="radio" id="q1c" name="q1" value="C"> C. Drikkekartonger<br>
+      </div>
+  
+      <div class="question">
+        <p>2. Hvilken av disse tre sorteres ikke som glass- og metallembalasje?</p>
+        <input type="radio" id="q2a" name="q2" value="A"> A. Speil og vindusglass<br>
+        <input type="radio" id="q2b" name="q2" value="B"> B. Glassflasker uten pant<br>
+        <input type="radio" id="q2c" name="q2" value="C"> C. Korker og lokk av metall<br>
+      </div>
+
+      <div class="question">
+        <p>3. Hvilken av disse tre sorteres ikke som matavfall?</p>
+        <input type="radio" id="q3a" name="q3" value="A"> A. Brød og bakevarer<br>
+        <input type="radio" id="q3b" name="q3" value="B"> B. Småbein fra kylling/kjøtt<br>
+        <input type="radio" id="q3c" name="q3" value="C"> C. Tyggis<br>
+      </div>
+  
+      <button type="button" onclick="checkAnswers()">Submit</button>
+    </form>
+  
+    <div id="result"></div>
+</body>
+</html>

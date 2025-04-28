@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" href="../Public/vurdering.css">
+    <link rel = "stylesheet" href="/vurdering.css">
     <title>Logg inn</title>
 </head>
 <body>
-    <h2>Logg inn</h2>
-    <% if (message) { %>
+    <div class ="logIn">
+      <h2>Logg inn</h2>
+      <% if (message) { %>
         <p style="color: red;"><%= message %></p>
-    <% } %>
-    <form action="/login" method="POST">
-        <input type="text" name="username" placeholder="Brukernavn" required><br>
-        <input type="password" name="password" placeholder="Passord" required><br>
-        <button type="submit">Logg inn</button>
-    </form>
-    <p>Har du ikke en konto? <a href="/register">Registrer deg</a></p>
+      <% } %>
+      <form action="/login" method="POST">
+          <input type="text" name="username" placeholder="Brukernavn" required><br>
+          <input type="password" name="password" placeholder="Passord" required><br>
+          
+          <div class = "logIn-Knapp">
+             <button type="submit">Logg inn</button>
+          </div>
+      </form>
+      <p>Har du ikke en konto? <a href="/register">Registrer deg</a></p>
+    </div>
 </body>
 </html>

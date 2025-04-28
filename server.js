@@ -73,7 +73,47 @@ app.post("/login", (req, res) => {
 
     if (match) {
       req.session.user = { id: user.id, username: user.username };
-      res.render("welcome", { username: user.username }); // Endret til EJS-malen
+    
+      db.all(`
+        SELECT posts.*, users.username 
+        FROM posts 
+        JOIN users ON posts.user_id = users.id
+        ORDER BY posts.created_at DESC
+      `, [], (err, posts) => {
+        if (err) {
+          console.error(err);
+          return res.send("Feil ved lasting av innlegg.");
+        }
+    
+        const postsWithComments = [];
+        let count = 0;
+    
+        posts.forEach((post) => {
+          db.all(`
+            SELECT comments.*, users.username 
+            FROM comments 
+            JOIN users ON comments.user_id = users.id
+            WHERE comments.post_id = ?
+            ORDER BY comments.created_at ASC
+          `, [post.id], (err, comments) => {
+            if (err) {
+              console.error(err);
+              return res.send("Feil ved lasting av kommentarer.");
+            }
+    
+            postsWithComments.push({ ...post, comments });
+            count++;
+    
+            if (count === posts.length) {
+              res.render("welcome", { username: user.username, posts: postsWithComments });
+            }
+          });
+        });
+    
+        if (posts.length === 0) {
+          res.render("welcome", { username: user.username, posts: [] });
+        }
+      });
     } else {
       res.render("login", { message: "Feil passord!" });
     }
@@ -90,7 +130,7 @@ app.get("/logout", (req, res) => {
 // 📌 Håndter sletting av konto
 app.post("/delete-account", (req, res) => {
   if (!req.session.user) {
-    return res.redirect("/"); // Brukeren må logge inn
+    return res.redirect("/");
   }
 
   res.send(`
@@ -141,4 +181,133 @@ app.post("/confirm-delete", (req, res) => {
 // Start serveren
 app.listen(PORT, () => {
   console.log(`Server kjører på http://localhost:${PORT}`);
+});
+
+app.get("/Welcome", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/");
+  }
+
+  db.all(`
+    SELECT posts.*, users.username 
+    FROM posts 
+    JOIN users ON posts.user_id = users.id
+    ORDER BY posts.created_at DESC
+  `, [], (err, posts) => {
+    if (err) {
+      console.error(err);
+      return res.render("welcome", { username: req.session.user.username, posts: [] });
+    }
+
+    if (!posts || posts.length === 0) {
+      return res.render("welcome", { username: req.session.user.username, posts: [] });
+    }
+
+    const postsWithComments = [];
+    let count = 0;
+
+    posts.forEach((post) => {
+      db.all(`
+        SELECT comments.*, users.username 
+        FROM comments 
+        JOIN users ON comments.user_id = users.id
+        WHERE comments.post_id = ?
+        ORDER BY comments.created_at ASC
+      `, [post.id], (err, comments) => {
+        if (err) {
+          console.error(err);
+          return res.send("Feil ved lasting av kommentarer.");
+        }
+
+        postsWithComments.push({ ...post, comments });
+        count++;
+
+        if (count === posts.length) {
+          // Når ALLE innleggene og kommentarene er ferdig lastet
+          res.render("welcome", { username: req.session.user.username, posts: postsWithComments });
+        }
+      });
+    });
+  });
+});
+
+// 📌 Vis alle innlegg
+app.get("/posts", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/");
+  }
+
+  db.all(`
+    SELECT posts.*, users.username 
+    FROM posts 
+    JOIN users ON posts.user_id = users.id
+    ORDER BY posts.created_at DESC
+  `, [], (err, posts) => {
+    if (err) {
+      console.error(err);
+      return res.send("Feil ved lasting av innlegg.");
+    }
+
+    const postsWithComments = [];
+    let count = 0;
+
+    posts.forEach((post) => {
+      db.all(`
+        SELECT comments.*, users.username 
+        FROM comments 
+        JOIN users ON comments.user_id = users.id
+        WHERE comments.post_id = ?
+        ORDER BY comments.created_at ASC
+      `, [post.id], (err, comments) => {
+        if (err) {
+          console.error(err);
+          return res.send("Feil ved lasting av kommentarer.");
+        }
+
+        postsWithComments.push({ ...post, comments });
+        count++;
+
+        if (count === posts.length) {
+          res.render("posts", { username: req.session.user.username, posts: postsWithComments });
+        }
+      });
+    });
+  });
+});
+
+// 📌 Lag nytt innlegg
+app.post("/posts", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/");
+  }
+
+  const { title, content } = req.body;
+  const userId = req.session.user.id;
+
+  db.run("INSERT INTO posts (user_id, title, content) VALUES (?, ?, ?)", [userId, title, content], (err) => {
+    if (err) {
+      console.error(err);
+      return res.send("Feil ved publisering av innlegg.");
+    }
+    res.redirect("/posts");
+  });
+});
+
+// 📌 Kommenter et innlegg
+app.post("/comments/:postId", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/");
+  }
+
+  const { comment } = req.body;
+  const postId = req.params.postId;
+  const userId = req.session.user.id;
+
+  db.run("INSERT INTO comments (post_id, user_id, comment) VALUES (?, ?, ?)", [postId, userId, comment], (err) => {
+    if (err) {
+      console.error(err);
+      return res.send("Feil ved publisering av kommentar.");
+    }
+    res.redirect("/posts");
+  });
 });
