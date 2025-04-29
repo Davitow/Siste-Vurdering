@@ -7,6 +7,8 @@
     <title>Innlegg</title>
 </head>
 <body>
+   
+   <!-- Velkommen melding med brukernavn -->
    <div class = "header">
      <h2>Velkommen, <%= username %>!</h2>
    </div>
@@ -22,6 +24,7 @@
             <a href="#" class="dropdownbtn">Din konto:</a>
             <div class="dropdown-content">
               <a href="/logout">Logg ut</a>
+              <a href="/edit-account">Endre brukerinfo</a>
               <form action="/delete-account" method="POST" onsubmit="return confirm('Er du sikker på at du vil slette kontoen din? Du må logge inn for å bekrefte.')">
                <button type="submit">Slett konto</button>
              </form>
@@ -38,6 +41,7 @@
       <h1>Kommentar</h1>
      </div>
 
+     <!-- Skjema for å lage ett innlegg -->
      <div class="innlegg">
        <form action="/posts" method="POST">
           <input type="text" name="title" placeholder="Tittel på innlegget" required><br>
@@ -50,17 +54,20 @@
        <h2>Alle Innlegg:</h2>
      </div>
 
+  <!-- Viser alle innlegg -->
   <% posts.forEach(post => { %>
       <div class="post">
           <h3><%= post.title %> (av <%= post.username %>)</h3>
           <p><%= post.content %></p>
           <small>Publisert: <%= post.created_at %></small>
 
+          <!-- Kommentarfelt for hvert innlegg -->
           <form action="/comments/<%= post.id %>" method="POST">
               <input type="text" name="comment" placeholder="Skriv en kommentar" required>
               <button type="submit">Kommenter</button>
           </form>
 
+          <!-- Viser kommentarer til innlegget -->
           <h4>Kommentarer:</h4>
           <% post.comments.forEach(comment => { %>
               <p><strong><%= comment.username %>:</strong> <%= comment.comment %></p>

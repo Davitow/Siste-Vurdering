@@ -44,6 +44,32 @@
     line-height: 140%;
     margin-top: 5%;
   }
+
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  /*Table data cells, boksene i tabellen*/
+  td {
+    table-layout: auto;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid black;
+    word-wrap: break-word; /* Sikrer at tekst wrapper inni cellen */
+  }
+
+  /* Stil for bokser på toppen og bunnen */
+  .top-row, .bottom-row {
+    background-color: rgb(222, 198, 247);
+  }
+
+  .row::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
   
   .logIn {
     text-align: center;
@@ -76,6 +102,7 @@
   }
 
   .dropdown-content {
+    font-size: small;
     margin-top: 3.6%;
     display: none;
     position: absolute;
@@ -175,4 +202,13 @@
     padding:3% 0;
     font-size: 150%;
     position:relative
+  }
+
+  .kontoinfo {
+    margin-left: 44%;
+  }
+
+  .oppdater-knapp {
+    margin-top: 1%;
+    margin-left: 2.5%; 
   }

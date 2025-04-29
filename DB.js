@@ -1,15 +1,17 @@
-const sqlite3 = require("sqlite3").verbose();
+const sqlite3 = require("sqlite3").verbose(); // Importerer SQLite-modulen med ekstra logging //
 
+// Åpner tilkobling til databasen 'users.db' //
 const db = new sqlite3.Database("./users.db", (err) => {
   if (err) {
-    console.error("Feil ved tilkobling til SQLite:", err.message);
+    console.error("Feil ved tilkobling til SQLite:", err.message); // Feilmelding om det er en error ved tilkobling til database //
   } else {
-    console.log("Tilkoblet til SQLite-databasen.");
+    console.log("Tilkoblet til SQLite-databasen."); // else-statement som forklarer at tilkoblingen til databasen var vellykket //
   }
 });
 
+// Lager tabeller hvis de ikke finnes fra før //
 db.serialize(() => {
-  // Opprett users først!
+  // Lager tabell for brukere //
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,7 +20,7 @@ db.serialize(() => {
     )
   `);
 
-  // Posts
+  // Lager tabell for innlegg //
   db.run(`
     CREATE TABLE IF NOT EXISTS posts (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,7 +32,7 @@ db.serialize(() => {
     )
   `);
 
-  // Comments
+  // Lager tabell for kommentarer //
   db.run(`
     CREATE TABLE IF NOT EXISTS comments (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -44,4 +46,4 @@ db.serialize(() => {
   `);
 });
 
-module.exports = db;
+module.exports = db; // Gjør databasen tilgjengelig for andre filer //
