@@ -60,7 +60,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// 📌 Håndter innlogging (verifiserer bruker fra SQLite) //
+// Håndter innlogging (verifiserer bruker fra SQLite) //
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -90,7 +90,7 @@ app.post("/login", (req, res) => {
         const postsWithComments = [];
         let count = 0;
     
-        // Henter kommentarer tilhørerende innlegg med forfatters brukernavn//
+        // Henter kommentarer tilhørerende innlegg med forfatters brukernavn //
         posts.forEach((post) => {
           db.all(`
             SELECT comments.*, users.username 
@@ -136,7 +136,7 @@ app.post("/delete-account", (req, res) => {
     return res.redirect("/");
   }
 
-  //redirect til en side som håndterer bekreftelse fra bruker om sletting av konto//
+  // redirect til en side som håndterer bekreftelse fra bruker om sletting av konto //
   res.send(`
     <h2>Bekreft sletting av konto</h2>
     <form action="/confirm-delete" method="POST">
@@ -231,11 +231,11 @@ app.get("/posts", (req, res) => {
           return res.send("Feil ved lasting av kommentarer."); // Error melding ved feil av lasting av innlegg //
         }
 
-        // Legg innlegget og dets kommentarer til resultatlista
+        // Legg innlegget og dets kommentarer til resultatlista //
         postsWithComments.push({ ...post, comments });
         count++;
 
-        // Når alle innlegg er behandlet, rendres siden med dataene
+        // Når alle innlegg er behandlet, rendres siden med dataene //
         if (count === posts.length) {
           res.render("posts", { username: req.session.user.username, posts: postsWithComments });
         }
@@ -281,7 +281,7 @@ app.post("/comments/:postId", (req, res) => {
   // Henter brukerens ID fra sesjonen //
   const userId = req.session.user.id;
 
-  // Sett inn kommentaren i databasen
+  // Sett inn kommentaren i databasen //
   db.run("INSERT INTO comments (post_id, user_id, comment) VALUES (?, ?, ?)", [postId, userId, comment], (err) => {
     if (err) {
       console.error(err);
@@ -294,7 +294,7 @@ app.post("/comments/:postId", (req, res) => {
 
 // Viser redigeringsskjema for brukerkonto //
 app.get("/edit-account", (req, res) => {
-  // Sjekk om bruker er logget inn
+  // Sjekk om bruker er logget inn //
   if (!req.session.user) {
     return res.redirect("/");
   }
@@ -305,7 +305,7 @@ app.get("/edit-account", (req, res) => {
 
 // Lager POST-rute som håndter oppdatering av brukerkonto //
 app.post("/update-account", async (req, res) => {
-  // Sjekk om bruker er logget inn
+  // Sjekk om bruker er logget inn //
   if (!req.session.user) {
     return res.redirect("/");
   }
@@ -315,10 +315,10 @@ app.post("/update-account", async (req, res) => {
   const saltRounds = 12; // Antall runder med salting som brukes ved hashing av passord //
 
   try {
-    // Krypter det nye passordet
+    // Krypter det nye passordet //
     const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
 
-    // Oppdater brukernavn og passord i databasen
+    // Oppdater brukernavn og passord i databasen //
     db.run(
       "UPDATE users SET username = ?, password = ? WHERE id = ?",
       [newUsername, hashedPassword, userId],
@@ -328,15 +328,15 @@ app.post("/update-account", async (req, res) => {
           return res.send("Feil ved oppdatering av konto."); // Sender error melding om det blir en feil ved oppdatering av konto //
         }
 
-        // Oppdater sesjonsdata med nytt brukernavn
+        // Oppdater sesjonsdata med nytt brukernavn //
         req.session.user.username = newUsername;
 
-        // Send bruker tilbake til velkomstsiden
+        // Send bruker tilbake til velkommen siden //
         res.redirect("/Welcome");
       }
     );
   } catch (error) {
-    // Håndter eventuelle feil ved hashing
+    // Håndter eventuelle feil ved hashing //
     console.error(error);
     res.send("Feil ved oppdatering av konto.");
   }
