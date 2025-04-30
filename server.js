@@ -21,17 +21,17 @@ app.use(
   })
 );
 
-// 📌 Rute: Hovedside (Login)
+// Rute: Hovedside (Login) //
 app.get("/", (req, res) => {
   res.render("login", { message: "" });
 });
 
-// 📌 Rute: Registrering
+// Rute: Registrering //
 app.get("/register", (req, res) => {
   res.render("register");
 });
 
-// 📌 Håndter registrering (lagrer bruker i SQLite)
+// Håndter registrering (lagrer bruker i SQLite) //
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
   const saltRounds = 12;
@@ -39,7 +39,7 @@ app.post("/register", async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Sjekk om brukeren allerede finnes
+    // Sjekk om brukeren allerede finnes //
     db.get("SELECT * FROM users WHERE username = ?", [username], (err, user) => {
       if (user) {
         return res.render("register", { message: "Brukernavnet er allerede tatt!" });
