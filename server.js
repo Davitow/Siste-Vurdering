@@ -73,7 +73,7 @@ app.post("/login", (req, res) => {
     const match = await bcrypt.compare(password, user.password); // Sammenligner skrevet passord på login side med hashet passord i databasen //
 
     if (match) {
-      req.session.user = { id: user.id, username: user.username }; // Om passord stemmer lagres bruker data i økten //
+      req.session.user = { id: user.id, username: user.username }; // Om passordet stemmer lagres bruker data i økten //
     
       // Henter brukers innlegg sortert etter nyeste først //
       db.all(` 
