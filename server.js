@@ -23,7 +23,7 @@ app.use(
 
 // Rute: Hovedside (Login) //
 app.get("/", (req, res) => {
-  res.render("login", { message: "" });
+res.render("login", { message: "" });
 });
 
 // Rute: Registrering //
@@ -244,7 +244,7 @@ app.get("/posts", (req, res) => {
   });
 });
 
-//  Lager POST-rute for å legge til nytt innlegg //
+//  Lager POST-rute som håndterer innkommende POST-forespørseler for å legge til nytt innlegg //
 app.post("/posts", (req, res) => {
   // Sjekker om bruker er logget inn //
   if (!req.session.user) {
@@ -340,4 +340,19 @@ app.post("/update-account", async (req, res) => {
     console.error(error);
     res.send("Feil ved oppdatering av konto.");
   }
+});
+
+app.get("/users", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/");
+  }
+
+  db.all("SELECT id, username FROM users", [], (err, users) => {
+    if (err) {
+      console.error(err);
+      return res.send("Feil ved henting av brukere.");
+    }
+
+    res.render("users", { users, currentUser: req.session.user.username });
+  });
 });

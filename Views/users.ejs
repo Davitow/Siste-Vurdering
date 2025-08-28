@@ -10,7 +10,6 @@
     
     <!-- Viser velkommen melding med brukernavn -->
     <div class = "header">
-      <h2>Velkommen, <%= username %>!</h2>
     </div>
     
     <div class = "topnav">
@@ -18,7 +17,6 @@
        <a href="/Fotoserie-skrekk.html">Fotoserie skrekk</a>
        <a href="/Interaktiv Historie.html">Interaktiv historie</a>
        <a href="/posts">Innlegg</a>
-       <a href="/users">Brukeroversikt</a>
        
        <!-- Dropdownmeny med logut, rediger og slett -->
        <div class="dinKonto">
@@ -36,38 +34,24 @@
          </div>
        </div>
     </div>
+  <div class="Overskrift">
+       <h1>Innlogget som: <%= currentUser %></h1>
+  </div>
+  
+  <h2>Alle brukere</h2>
 
-    <div class="Overskrift">
-      <h1>Om prosjektene</h1>
-    </div>
-
-    <!-- Tabell med prosjekter og fag -->
     <table>
-      <!-- Øverste rad med 3 bokser -->
-      <tr class="top-row">
-          <td>Oppgave</td> <!-- Oppgaven -->
-          <td>Fag</td> <!-- Faget for oppgaven -->
-          <td>Dato</td> <!-- Dato på når oppgaven ble utdelt -->
-      </tr>
-      
-      <!-- Nedre rad med flere bokser -->
-      <tr class="row">
-        <td>Tverrfaglig Prosjekt</td>
-        <td>Naturfag, Matematikk, Engelsk, Konseptutvikling, Medieproduksjon</td>
-        <td>15.01.2025</td>
-      </tr>
-  
-      <tr class="row">
-        <td>Fotoserie</td>
-        <td>Medieproduksjon</td>
-        <td>14.10.2024</td>
-      </tr>
-  
-      <tr class="row">
-        <td>Interaktiv historie</td>
-        <td>Teknologi forståelse</td>
-        <td>12.03.2025</td>
-      </tr>
+        <tr class = "top-row">
+            <td>Id</td>
+            <td>brukernavn</td>
+        </tr>
+
+        <tbody>
+            <% users.forEach(user => { %>
+              <tr>
+                <td><%= user.id %></td>
+                <td><%= user.username %></td>
+              </tr>
+            <% }) %>
+      </tbody>
     </table>
-</body>
-</html>
