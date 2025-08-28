@@ -9,7 +9,7 @@ const db = new sqlite3.Database("./users.db", (err) => {
   }
 });
 
-// Lager tabeller hvis de ikke finnes fra før //
+// Lager tabeller hvis de ikke finnes fra før av //
 db.serialize(() => {
   // Lager tabell for brukere //
   db.run(`
